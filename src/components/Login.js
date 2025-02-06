@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
+    const navigateAuthUser = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,7 +29,7 @@ const Login = () => {
                 throw new Error(`Response status: ${response.status}`);
             }
 
-            window.location.href = '/';
+            navigateAuthUser('/');
         } catch (err) {
             setError(err.message);
         }
