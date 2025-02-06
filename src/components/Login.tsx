@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState<string | null>('');
     const navigateAuthUser = useNavigate();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!name || !email) {
             setError('Please fill in both fields.')
@@ -30,7 +30,7 @@ const Login = () => {
             }
 
             navigateAuthUser('/');
-        } catch (err) {
+        } catch (err: any) {
             setError(err.message);
         }
     };
@@ -38,26 +38,26 @@ const Login = () => {
     return(
         <div>
             <h1>Login Here</h1>
-            <form onSubmit={ handleSubmit } >
+            <form onSubmit={handleSubmit}>
                 <div>
                     <label></label>
-                    <input 
-                        type="text" 
-                        id="name" 
-                        value={name} 
-                        onChange={ (e) => setName(e.target.value) } 
+                    <input
+                        type="text"
+                        id="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                     />
                 </div>
                 <div>
                     <label></label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        value={email} 
-                        onChange={ (e) => setEmail(e.target.value) } 
+                    <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-                { error && <p>{ error }</p> }
+                {error && <p>{error}</p>}
                 <button>Login</button>
             </form>
         </div>
