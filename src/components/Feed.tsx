@@ -15,6 +15,7 @@ const Feed = () => {
     const [error, setError] = useState<string | null>(null);
     const [breeds, setBreeds] = useState<string[]>([]);
     const [selectedBreed, setSelectedBreed] = useState<string>('');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [page, setPage] = useState(0);
     const [totalResults, setTotalResults] = useState(0);
 
@@ -52,7 +53,7 @@ const Feed = () => {
             try {
                 const searchParams: any = {
                     size: 25,
-                    sort: 'breed:asc',
+                    sort: `breed:${sortOrder}`,
                     from: page * 25,
                 };
 
@@ -120,7 +121,12 @@ const Feed = () => {
         };
 
         fetchDogIds();
-    }, [selectedBreed, page]);
+    }, [selectedBreed, sortOrder, page]);
+
+    const toggleSortOrder = () => {
+        setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+        setPage(0);
+    };
 
     if (loadingResults) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -146,6 +152,13 @@ const Feed = () => {
                         </option>
                     ))}
                 </select>
+            </div>
+
+            <div>
+                <label>Sort by Breed: </label>
+                <button onClick={toggleSortOrder}>
+                    {sortOrder === 'asc' ? 'Ascending ▲' : 'Descending ▼'}
+                </button>
             </div>
 
             {dogData && dogData.length > 0 ? (
