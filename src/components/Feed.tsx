@@ -13,10 +13,11 @@ const Feed = () => {
     const [dogData, setDogData] = useState<Dog[] | null>(null);
     const [loadingResults, setLoadingResults] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [breeds, setBreeds] = useState<string[]>([]); // Store available breeds
-    const [selectedBreed, setSelectedBreed] = useState<string>(''); // Store selected breed
+    const [breeds, setBreeds] = useState<string[]>([]);
+    const [selectedBreed, setSelectedBreed] = useState<string>('');
+    const [page, setPage] = useState(0);
+    const [totalResults, setTotalResults] = useState(0);
 
-    // Fetch breeds on component mount
     useEffect(() => {
         const fetchBreeds = async () => {
             try {
@@ -36,7 +37,7 @@ const Feed = () => {
                 }
 
                 const breedData = await breedResponse.json();
-                setBreeds(breedData); // Set available breeds in state
+                setBreeds(breedData);
             } catch (err: any) {
                 setError(err.message);
             }
@@ -45,13 +46,16 @@ const Feed = () => {
         fetchBreeds();
     }, []);
 
-    // Fetch dog data based on breed filter
     useEffect(() => {
         const fetchDogIds = async () => {
+            setLoadingResults(true);
             try {
-                const searchParams: any = { size: 25, sort: 'breed:asc' };
+                const searchParams: any = {
+                    size: 25,
+                    sort: 'breed:asc',
+                    from: page * 25,
+                };
 
-                // If a breed is selected, add it to the search query
                 if (selectedBreed) {
                     searchParams.breeds = [selectedBreed];
                 }
@@ -74,10 +78,12 @@ const Feed = () => {
 
                 const dogIdResult = await dogIdResponse.json();
                 const dogIds: string[] = dogIdResult.resultIds;
+                setTotalResults(dogIdResult.total);
 
                 if (dogIds.length > 0) {
                     fetchDogDetails(dogIds);
                 } else {
+                    setDogData([]);
                     setLoadingResults(false);
                 }
             } catch (err: any) {
@@ -114,7 +120,7 @@ const Feed = () => {
         };
 
         fetchDogIds();
-    }, [selectedBreed]); // Re-run when selected breed changes
+    }, [selectedBreed, page]);
 
     if (loadingResults) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -123,13 +129,15 @@ const Feed = () => {
         <div>
             <h1>Your Potential Pawtners</h1>
 
-            {/* Breed Filter Dropdown */}
             <div>
                 <label htmlFor="breed">Filter by Breed: </label>
                 <select
                     id="breed"
                     value={selectedBreed}
-                    onChange={(e) => setSelectedBreed(e.target.value)}
+                    onChange={(e) => {
+                        setSelectedBreed(e.target.value);
+                        setPage(0);
+                    }}
                 >
                     <option value="">All Breeds</option>
                     {breeds.map((breed) => (
@@ -140,7 +148,6 @@ const Feed = () => {
                 </select>
             </div>
 
-            {/* Display Dog Data */}
             {dogData && dogData.length > 0 ? (
                 <div>
                     {dogData.map((dog) => (
@@ -156,6 +163,22 @@ const Feed = () => {
             ) : (
                 <p>No dogs found</p>
             )}
+
+            <div>
+                <button
+                    disabled={page === 0}
+                    onClick={() => setPage((prev) => prev - 1)}
+                >
+                    Previous Page
+                </button>
+                <span> Page {page + 1} </span>
+                <button
+                    disabled={(page + 1) * 25 >= totalResults}
+                    onClick={() => setPage((prev) => prev + 1)}
+                >
+                    Next Page
+                </button>
+            </div>
         </div>
     );
 };
