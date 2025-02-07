@@ -18,6 +18,8 @@ const Feed = () => {
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
     const [page, setPage] = useState(0);
     const [totalResults, setTotalResults] = useState(0);
+    const [favorites, setFavorites] = useState<Dog[]>([]);
+    const [match, setMatch] = useState<Dog | null>(null);
 
     useEffect(() => {
         const fetchBreeds = async () => {
@@ -128,6 +130,40 @@ const Feed = () => {
         setPage(0);
     };
 
+    const toggleFavorite = (dog: Dog) => {
+        setFavorites((prev) =>
+            prev.find((fav) => fav.id === dog.id)
+                ? prev.filter((fav) => fav.id !== dog.id)
+                : [...prev, dog]
+        );
+    };
+
+    const findMatch = async () => {
+        if (favorites.length === 0) return;
+
+        const favoriteIds = favorites.map((dog) => dog.id);
+        try {
+            const matchResponse = await fetch("https://frontend-take-home-service.fetch.com/dogs/match", {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(favoriteIds),
+            });
+
+            if (!matchResponse.ok) {
+                throw new Error(`HTTP error! Status: ${matchResponse.status}`);
+            }
+
+            const matchResult = await matchResponse.json();
+            const matchedDogId = matchResult.match;
+            setMatch(dogData?.find((dog) => dog.id === matchedDogId) || null);
+        } catch (err: any) {
+            setError(err.message);
+        }
+    };
+
     if (loadingResults) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
@@ -135,6 +171,34 @@ const Feed = () => {
         <div>
             <h1>Your Potential Pawtners</h1>
 
+            {/* Displaying favorite counter/button */}
+            <div>
+                <button>
+                    <strong>Favorites: {favorites.length}</strong>
+                </button>
+            </div>
+
+            {/* Displaying the favorites list */}
+            {favorites.length > 0 && (
+                <div>
+                    <h2>Your Favorite Dogs</h2>
+                    <div>
+                        {favorites.map((dog) => (
+                            <div key={dog.id}>
+                                <img src={dog.img} alt={dog.name} />
+                                <h3>{dog.name}</h3>
+                                <p>Age: {dog.age}</p>
+                                <p>Breed: {dog.breed}</p>
+                                <button onClick={() => toggleFavorite(dog)}>
+                                    Unfavorite
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Existing breed filter and sorting UI */}
             <div>
                 <label htmlFor="breed">Filter by Breed: </label>
                 <select
@@ -161,6 +225,7 @@ const Feed = () => {
                 </button>
             </div>
 
+            {/* Displaying the dog list */}
             {dogData && dogData.length > 0 ? (
                 <div>
                     {dogData.map((dog) => (
@@ -169,7 +234,11 @@ const Feed = () => {
                             <h2>{dog.name}</h2>
                             <p>Age: {dog.age}</p>
                             <p>Breed: {dog.breed}</p>
-                            <p>Zip Code: {dog.zip_code}</p>
+                            <button onClick={() => toggleFavorite(dog)}>
+                                {favorites.some((fav) => fav.id === dog.id)
+                                    ? 'Unfavorite'
+                                    : 'Favorite'}
+                            </button>
                         </div>
                     ))}
                 </div>
@@ -177,21 +246,11 @@ const Feed = () => {
                 <p>No dogs found</p>
             )}
 
-            <div>
-                <button
-                    disabled={page === 0}
-                    onClick={() => setPage((prev) => prev - 1)}
-                >
-                    Previous Page
-                </button>
-                <span> Page {page + 1} </span>
-                <button
-                    disabled={(page + 1) * 25 >= totalResults}
-                    onClick={() => setPage((prev) => prev + 1)}
-                >
-                    Next Page
-                </button>
-            </div>
+            {/* Match button */}
+            <button onClick={findMatch} disabled={favorites.length === 0}>
+                Find a Match
+            </button>
+            {match && <p>Matched with: {match.name}</p>}
         </div>
     );
 };
