@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 interface Dog {
   id: string;
@@ -10,6 +11,7 @@ interface Dog {
 }
 
 const Favorites = () => {
+  const navigate = useNavigate();
   const [favorites, setFavorites] = useState<Dog[]>([]);
 
   useEffect(() => {
@@ -30,9 +32,19 @@ const Favorites = () => {
     localStorage.setItem('favorites', JSON.stringify(newFavorites));
   };
 
+  // Navigate to the Favorites page when the button is clicked
+  const goBackToFeed = () => {
+    navigate('/');
+  };
+
   return (
     <div>
       <h2>Your Favorite Dogs</h2>
+      <div style={{ marginBottom: '20px' }}>
+        <button onClick={goBackToFeed}>
+          Go Back to Feed
+        </button>
+      </div>
       <div>
         {favorites.length === 0 ? (
           <p>No favorites yet!</p>
