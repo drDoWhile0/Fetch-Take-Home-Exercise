@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Add this import
+import { useNavigate } from 'react-router-dom';
 
 interface Dog {
   id: string;
@@ -11,7 +11,6 @@ interface Dog {
 }
 
 const Feed = () => {
-  const navigate = useNavigate(); // Initialize navigate for routing
   const [dogData, setDogData] = useState<Dog[] | null>(null);
   const [loadingResults, setLoadingResults] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,12 +21,7 @@ const Feed = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [favorites, setFavorites] = useState<Dog[]>([]);
 
-  useEffect(() => {
-    const storedFavorites = localStorage.getItem('favorites');
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
-    }
-  }, []);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBreeds = async () => {
@@ -126,15 +120,35 @@ const Feed = () => {
     fetchDogIds();
   }, [selectedBreed, sortOrder, page]);
 
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem('favorites');
+    if (storedFavorites) {
+      setFavorites(JSON.parse(storedFavorites));
+    }
+  }, []);
+
   const toggleFavorite = (dog: Dog) => {
     const newFavorites = [...favorites];
     const isFavorite = newFavorites.some((fav) => fav.id === dog.id);
+
     if (isFavorite) {
-      setFavorites(newFavorites.filter((fav) => fav.id !== dog.id));
+      const updatedFavorites = newFavorites.filter((fav) => fav.id !== dog.id);
+      setFavorites(updatedFavorites);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     } else {
-      setFavorites([...newFavorites, dog]);
+      const updatedFavorites = [...newFavorites, dog];
+      setFavorites(updatedFavorites);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
     }
-    localStorage.setItem('favorites', JSON.stringify(newFavorites));
+  };
+
+  const clearFavorites = () => {
+    setFavorites([]);
+    localStorage.removeItem('favorites');
+  };
+
+  const goToFavorites = () => {
+    navigate('/favorites');
   };
 
   const toggleSortOrder = () => {
@@ -142,23 +156,11 @@ const Feed = () => {
     setPage(0);
   };
 
-  // Navigate to the Favorites page when the button is clicked
-  const goToFavorites = () => {
-    navigate('/favorites');
-  };
-
   if (loadingResults) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
-      {/* Button to show favorites count and navigate */}
-      <div style={{ marginBottom: '20px' }}>
-        <button onClick={goToFavorites}>
-          Favorites ({favorites.length}) - Go to Favorites
-        </button>
-      </div>
-
       <h1>Your Potential Pawtners</h1>
 
       <div>
@@ -187,6 +189,15 @@ const Feed = () => {
         </button>
       </div>
 
+      <div>
+        <button onClick={goToFavorites}>
+          Favorites ({favorites.length})
+        </button>
+        <button onClick={clearFavorites} style={{ marginLeft: '10px' }}>
+          Clear Favorites
+        </button>
+      </div>
+
       {dogData && dogData.length > 0 ? (
         <div>
           {dogData.map((dog) => (
@@ -194,6 +205,7 @@ const Feed = () => {
               <img src={dog.img} alt={dog.name} />
               <h2>{dog.name}</h2>
               <p>Age: {dog.age}</p>
+              <p>Zip Code: {dog.zip_code}</p>
               <p>Breed: {dog.breed}</p>
               <button onClick={() => toggleFavorite(dog)}>
                 {favorites.some((fav) => fav.id === dog.id) ? 'Unfavorite' : 'Favorite'}
