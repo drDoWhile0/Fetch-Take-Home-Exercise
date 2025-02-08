@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Navigation from './Navigation';
-
 interface Dog {
   id: string;
   img: string;
@@ -185,9 +183,6 @@ const Feed = () => {
   return (
     <>
       <div>
-        <Navigation />
-      </div>
-      <div>
         <h1>Your Potential Pawtners</h1>
 
         <div>
@@ -226,9 +221,9 @@ const Feed = () => {
         </div>
 
         {dogData && dogData.length > 0 ? (
-          <div>
+          <div className="dog-grid">
             {dogData.map((dog) => (
-              <div key={dog.id}>
+              <div key={dog.id} className="dog-card">
                 <img src={dog.img} alt={dog.name} />
                 <h2>{dog.name}</h2>
                 <p>Age: {dog.age}</p>
