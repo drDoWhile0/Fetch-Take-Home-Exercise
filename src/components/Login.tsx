@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Box, Grid, Paper } from '@mui/material';
+import PetsIcon from '@mui/icons-material/Pets';
 import { useLocation } from 'react-router-dom';
 
 const Login = () => {
@@ -64,7 +65,10 @@ const Login = () => {
                 flexDirection: "column",
             }}
         >
-            <h1>Pawtners</h1>
+            <div className='login-component__heading-icon-container'>
+                <h1>Pawtners</h1>
+                <PetsIcon className='login-component__heading-icon-container__paw-icon' sx={{ color: '#FBA919', height: '30px', width: '30px' }} />
+            </div>
             <p>Find your paw-fect match today.</p>
 
             <Grid
@@ -76,6 +80,7 @@ const Login = () => {
                 elevation={6}
                 sx={{
                     borderRadius: "8px",
+                    backgroundColor: "#F6F6F8",
                 }}
                 square
             >
@@ -89,7 +94,7 @@ const Login = () => {
                         alignItems: "center",
                     }}
                 >
-                    <Typography variant="h5">Login</Typography>
+                    <Typography variant="h5" sx={{ fontFamily: '"Bree Serif", serif' }}>Login</Typography>
                     <form onSubmit={handleSubmit} style={{ width: "100%" }}>
                         {/* Name input */}
                         <TextField
@@ -123,9 +128,15 @@ const Login = () => {
                             fullWidth
                             variant="contained"
                             className="login-component__login-card__button"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ 
+                                mt: 3, 
+                                mb: 2,
+                                backgroundColor: "#FFA900",
+                                color: 'black',
+                                fontFamily: '"Bree Serif", serif'
+                            }}
                         >
-                            Login
+                            Let's Go!
                         </Button>
                     </form>
                 </Box>
