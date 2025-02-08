@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Box, Grid, Paper } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 const Login = () => {
+  const location = useLocation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>('');
@@ -35,69 +37,101 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (location.pathname === '/login') {
+        document.body.classList.add('login-page');
+    } else {
+        document.body.classList.remove('login-page');
+    }
+
+    return () => {
+        document.body.classList.remove('login-page');
+    }
+
+  }, [location]);
+
   return (
-    <Grid
-      container
-      component="main"
-      className='login-component'
-      sx={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
-        <Box
-          sx={{
-            my: 8,
-            mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
+    <>
+        <Grid
+            container
+            component="main"
+            className="login-component"
+            sx={{
+                height: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+            }}
         >
-          <Typography variant="h5">Login</Typography>
-          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-            {/* Name input */}
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+            <h1>Pawtners</h1>
+            <p>Find your paw-fect match today.</p>
 
-            {/* Email input */}
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            {/* Error message */}
-            {error && <Typography color="error">{error}</Typography>}
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+            <Grid
+                item
+                xs={12}
+                sm={8}
+                md={4}
+                component={Paper}
+                elevation={6}
+                sx={{
+                    borderRadius: "8px",
+                }}
+                square
             >
-              Login
-            </Button>
-          </form>
-        </Box>
-      </Grid>
-    </Grid>
+                <Box
+                    className="login-component__login-card"
+                    sx={{
+                        my: 8,
+                        mx: 4,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}
+                >
+                    <Typography variant="h5">Login</Typography>
+                    <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+                        {/* Name input */}
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            label="Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+
+                        {/* Email input */}
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            label="Email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+
+                        {/* Error message */}
+                        {error && <Typography color="error">{error}</Typography>}
+
+                        {/* Submit Button */}
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            className="login-component__login-card__button"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Login
+                        </Button>
+                    </form>
+                </Box>
+            </Grid>
+        </Grid>
+    </>
   );
 };
 
