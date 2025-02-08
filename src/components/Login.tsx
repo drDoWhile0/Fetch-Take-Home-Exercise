@@ -105,6 +105,13 @@ const Login = () => {
                             label="Name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#C31162'
+                                    },
+                                }
+                            }}
                         />
 
                         {/* Email input */}
@@ -117,6 +124,13 @@ const Login = () => {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                  '&.Mui-focused fieldset': {
+                                    borderColor: '#C31162',
+                                  },
+                                },
+                              }}
                         />
 
                         {/* Error message */}
@@ -133,7 +147,11 @@ const Login = () => {
                                 mb: 2,
                                 backgroundColor: "#FFA900",
                                 color: 'black',
-                                fontFamily: '"Bree Serif", serif'
+                                fontFamily: '"Bree Serif", serif',
+                                "&:hover": {
+                                    backgroundColor: "#FF5733",
+                                    color: "white",
+                                },
                             }}
                         >
                             Let's Go!
