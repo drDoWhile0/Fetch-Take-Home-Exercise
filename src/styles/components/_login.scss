@@ -1,5 +1,32 @@
+body.login-page {
+    background: linear-gradient(to right, $primary-color, $gradient-color-secondary);
+}
+
 .login-component {
-    background-color: $primary-color;
+    background: linear-gradient(to right, $primary-color, $gradient-color-secondary);
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1, p {
+        color: white;
+    }
     
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 0;
+    }
+    
+    p {
+        margin-bottom: 40px;
+    }
+
+    &__login-card {
+
+        &__button { 
+            background-color: red;
+        }
+    }
 }
