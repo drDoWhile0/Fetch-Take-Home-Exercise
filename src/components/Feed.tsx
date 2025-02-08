@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Navigation from './Navigation';
+
 interface Dog {
   id: string;
   img: string;
@@ -181,72 +183,77 @@ const Feed = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
-      <h1>Your Potential Pawtners</h1>
-
+    <>
       <div>
-        <label htmlFor="breed">Filter by Breed: </label>
-        <select
-          id="breed"
-          value={selectedBreed}
-          onChange={(e) => {
-            setSelectedBreed(e.target.value);
-            setPage(0);
-          }}
-        >
-          <option value="">All Breeds</option>
-          {breeds.map((breed) => (
-            <option key={breed} value={breed}>
-              {breed}
-            </option>
-          ))}
-        </select>
+        <Navigation />
       </div>
-
       <div>
-        <label>Sort by Breed: </label>
-        <button onClick={toggleSortOrder}>
-          {sortOrder === 'asc' ? 'Ascending ▲' : 'Descending ▼'}
-        </button>
-      </div>
+        <h1>Your Potential Pawtners</h1>
 
-      <div>
-        <button onClick={goToFavorites}>
-          Favorites ({favorites.length})
-        </button>
-        <button onClick={clearFavorites} style={{ marginLeft: '10px' }}>
-          Clear Favorites
-        </button>
-      </div>
-
-      {dogData && dogData.length > 0 ? (
         <div>
-          {dogData.map((dog) => (
-            <div key={dog.id}>
-              <img src={dog.img} alt={dog.name} />
-              <h2>{dog.name}</h2>
-              <p>Age: {dog.age}</p>
-              <p>Zip Code: {dog.zip_code}</p>
-              <p>Breed: {dog.breed}</p>
-              <button onClick={() => toggleFavorite(dog)}>
-                {favorites.some((fav) => fav.id === dog.id) ? 'Unfavorite' : 'Favorite'}
-              </button>
-            </div>
-          ))}
+          <label htmlFor="breed">Filter by Breed: </label>
+          <select
+            id="breed"
+            value={selectedBreed}
+            onChange={(e) => {
+              setSelectedBreed(e.target.value);
+              setPage(0);
+            }}
+          >
+            <option value="">All Breeds</option>
+            {breeds.map((breed) => (
+              <option key={breed} value={breed}>
+                {breed}
+              </option>
+            ))}
+          </select>
         </div>
-      ) : (
-        <p>No dogs found</p>
-      )}
 
-      <div>
-        <button onClick={goToPrevPage} disabled={!paginationLinks.prev}>
-          Previous
-        </button>
-        <button onClick={goToNextPage} disabled={!paginationLinks.next}>
-          Next
-        </button>
+        <div>
+          <label>Sort by Breed: </label>
+          <button onClick={toggleSortOrder}>
+            {sortOrder === 'asc' ? 'Ascending ▲' : 'Descending ▼'}
+          </button>
+        </div>
+
+        <div>
+          <button onClick={goToFavorites}>
+            Favorites ({favorites.length})
+          </button>
+          <button onClick={clearFavorites} style={{ marginLeft: '10px' }}>
+            Clear Favorites
+          </button>
+        </div>
+
+        {dogData && dogData.length > 0 ? (
+          <div>
+            {dogData.map((dog) => (
+              <div key={dog.id}>
+                <img src={dog.img} alt={dog.name} />
+                <h2>{dog.name}</h2>
+                <p>Age: {dog.age}</p>
+                <p>Zip Code: {dog.zip_code}</p>
+                <p>Breed: {dog.breed}</p>
+                <button onClick={() => toggleFavorite(dog)}>
+                  {favorites.some((fav) => fav.id === dog.id) ? 'Unfavorite' : 'Favorite'}
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No dogs found</p>
+        )}
+
+        <div>
+          <button onClick={goToPrevPage} disabled={!paginationLinks.prev}>
+            Previous
+          </button>
+          <button onClick={goToNextPage} disabled={!paginationLinks.next}>
+            Next
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
