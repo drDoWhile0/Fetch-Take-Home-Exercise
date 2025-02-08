@@ -20,6 +20,10 @@ const Feed = () => {
   const [page, setPage] = useState(0);
   const [totalResults, setTotalResults] = useState(0);
   const [favorites, setFavorites] = useState<Dog[]>([]);
+  const [paginationLinks, setPaginationLinks] = useState<{ next: string | null; prev: string | null }>({
+    next: null,
+    prev: null,
+  });
 
   const navigate = useNavigate();
 
@@ -80,6 +84,11 @@ const Feed = () => {
         const dogIdResult = await dogIdResponse.json();
         const dogIds: string[] = dogIdResult.resultIds;
         setTotalResults(dogIdResult.total);
+
+        setPaginationLinks({
+          next: dogIdResult.next || null,
+          prev: dogIdResult.prev || null,
+        });
 
         if (dogIds.length > 0) {
           fetchDogDetails(dogIds);
@@ -156,6 +165,18 @@ const Feed = () => {
     setPage(0);
   };
 
+  const goToNextPage = () => {
+    if (paginationLinks.next) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (paginationLinks.prev) {
+      setPage((prev) => prev - 1);
+    }
+  };
+
   if (loadingResults) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -216,6 +237,15 @@ const Feed = () => {
       ) : (
         <p>No dogs found</p>
       )}
+
+      <div>
+        <button onClick={goToPrevPage} disabled={!paginationLinks.prev}>
+          Previous
+        </button>
+        <button onClick={goToNextPage} disabled={!paginationLinks.next}>
+          Next
+        </button>
+      </div>
     </div>
   );
 };
