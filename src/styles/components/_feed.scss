@@ -45,30 +45,25 @@ body {
     }
   
     button {
-      background-color: #007bff;
       color: white;
       border: none;
       padding: 8px 16px;
       border-radius: 4px;
       cursor: pointer;
-  
-      &:hover {
-        background-color: #0056b3;
-      }
     }
   }
   
   button {
     margin-top: 20px;
     padding: 8px 16px;
-    background-color: #28a745;
-    color: white;
+    background-color: $button-color-primary;
+    color: black;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   
     &:hover {
-      background-color: #218838;
+      background-color: $button-color-primary;
     }
   }
   
