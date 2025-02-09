@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardMedia, IconButton, Typography, CardActions } from '@mui/material';
+import { 
+  Button,
+  Card, 
+  CardContent, 
+  CardMedia, 
+  IconButton, 
+  Typography, 
+  CardActions, 
+  FormControl, 
+  InputLabel, 
+  Select, 
+  MenuItem } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 
 import Navigation from './Navigation';
@@ -194,37 +205,50 @@ const Feed = () => {
 
         <div className='main-feed-container__main-feed-display__filter-sort-controls'>
           <div>
-            <label htmlFor="breed">Filter by Breed: </label>
-            <select
-              id="breed"
-              value={selectedBreed}
-              onChange={(e) => {
-                setSelectedBreed(e.target.value);
-                setPage(0);
-              }}
-            >
-              <option value="">All Breeds</option>
-              {breeds.map((breed) => (
-                <option key={breed} value={breed}>
-                  {breed}
-                </option>
-              ))}
-            </select>
+            <FormControl fullWidth sx={{ width: '250px' }}>
+              <InputLabel id="breed-label">Filter by Breed</InputLabel>
+              <Select
+                labelId="breed-label"
+                id="breed"
+                value={selectedBreed}
+                onChange={(e) => {
+                  setSelectedBreed(e.target.value);
+                  setPage(0);
+                }}
+                label="Filter by Breed"
+              >
+                <MenuItem value="">All Breeds</MenuItem>
+                {breeds.map((breed) => (
+                  <MenuItem key={breed} value={breed}>
+                    {breed}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </div>
-          <div>
+          <div className='main-feed-container__main-feed-display__filter-sort-controls__buttons'>
             <label>Sort by Breed: </label>
-            <button onClick={toggleSortOrder}>
+            <Button 
+              variant="outlined" 
+              onClick={toggleSortOrder}
+              sx={{ borderColor: 'black', color: 'black' }}
+            >
               {sortOrder === 'asc' ? 'Ascending ▲' : 'Descending ▼'}
-            </button>
+            </Button>
           </div>
-
-          <div>
-            <button onClick={goToFavorites}>
+          <div className='main-feed-container__main-feed-display__filter-sort-controls__buttons'>
+            <Button 
+              variant='outlined'
+              onClick={goToFavorites}
+              sx={{ borderColor: 'black', color: 'black' }}
+            >
               Favorites ({favorites.length})
-            </button>
-            <button onClick={clearFavorites} style={{ marginLeft: '10px' }}>
+            </Button>
+            <Button 
+              onClick={clearFavorites} 
+              sx={{ marginLeft: '10px', borderColor: 'black', color: 'black' }}>
               Clear Favorites
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -271,13 +295,23 @@ const Feed = () => {
           <p>No dogs found</p>
         )}
 
-        <div>
-          <button onClick={goToPrevPage} disabled={!paginationLinks.prev}>
+        <div className='nex-prev-btn-container'>
+          <Button 
+            variant='outlined'
+            onClick={goToPrevPage} 
+            disabled={!paginationLinks.prev}
+            sx={{ borderColor: 'black', color: 'black', marginRight: '24px' }}
+          >
             Previous
-          </button>
-          <button onClick={goToNextPage} disabled={!paginationLinks.next}>
+          </Button>
+          <Button 
+            variant='outlined'
+            onClick={goToNextPage} 
+            disabled={!paginationLinks.next}
+            sx={{ borderColor: 'black', color: 'black' }}
+          >
             Next
-          </button>
+          </Button>
         </div>
       </div>
     </div>
