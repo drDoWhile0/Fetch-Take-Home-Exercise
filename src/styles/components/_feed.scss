@@ -128,10 +128,23 @@ body {
       padding: 20px;
       margin: 0 100px;
 
+      h1 {
+        margin-bottom: 60px;
+      }
+
       &__filter-sort-controls {
         display: flex;
         align-items: baseline;
         justify-content: space-between;
+
+        &__buttons {
+          align-self: center;
+        }
+      }
+
+      .nex-prev-btn-container {
+        margin-top: 40px;
+        text-align: center;
       }
 
     }
