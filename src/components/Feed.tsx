@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardMedia, IconButton, Typography, CardActions } from '@mui/material';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
+
+import Navigation from './Navigation';
 
 interface Dog {
   id: string;
@@ -181,58 +185,86 @@ const Feed = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <>
-      <div>
+    <div className='main-feed-container'>
+      <div className='main-feed-container__navigation-container'>
+        <Navigation />
+      </div>
+      <div className='main-feed-container__main-feed-display'>
         <h1>Your Potential Pawtners</h1>
 
-        <div>
-          <label htmlFor="breed">Filter by Breed: </label>
-          <select
-            id="breed"
-            value={selectedBreed}
-            onChange={(e) => {
-              setSelectedBreed(e.target.value);
-              setPage(0);
-            }}
-          >
-            <option value="">All Breeds</option>
-            {breeds.map((breed) => (
-              <option key={breed} value={breed}>
-                {breed}
-              </option>
-            ))}
-          </select>
-        </div>
+        <div className='main-feed-container__main-feed-display__filter-sort-controls'>
+          <div>
+            <label htmlFor="breed">Filter by Breed: </label>
+            <select
+              id="breed"
+              value={selectedBreed}
+              onChange={(e) => {
+                setSelectedBreed(e.target.value);
+                setPage(0);
+              }}
+            >
+              <option value="">All Breeds</option>
+              {breeds.map((breed) => (
+                <option key={breed} value={breed}>
+                  {breed}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label>Sort by Breed: </label>
+            <button onClick={toggleSortOrder}>
+              {sortOrder === 'asc' ? 'Ascending ▲' : 'Descending ▼'}
+            </button>
+          </div>
 
-        <div>
-          <label>Sort by Breed: </label>
-          <button onClick={toggleSortOrder}>
-            {sortOrder === 'asc' ? 'Ascending ▲' : 'Descending ▼'}
-          </button>
-        </div>
-
-        <div>
-          <button onClick={goToFavorites}>
-            Favorites ({favorites.length})
-          </button>
-          <button onClick={clearFavorites} style={{ marginLeft: '10px' }}>
-            Clear Favorites
-          </button>
+          <div>
+            <button onClick={goToFavorites}>
+              Favorites ({favorites.length})
+            </button>
+            <button onClick={clearFavorites} style={{ marginLeft: '10px' }}>
+              Clear Favorites
+            </button>
+          </div>
         </div>
 
         {dogData && dogData.length > 0 ? (
           <div className="dog-grid">
             {dogData.map((dog) => (
-              <div key={dog.id} className="dog-card">
-                <img src={dog.img} alt={dog.name} />
-                <h2>{dog.name}</h2>
-                <p>Age: {dog.age}</p>
-                <p>Zip Code: {dog.zip_code}</p>
-                <p>Breed: {dog.breed}</p>
-                <button onClick={() => toggleFavorite(dog)}>
-                  {favorites.some((fav) => fav.id === dog.id) ? 'Unfavorite' : 'Favorite'}
-                </button>
-              </div>
+              <Card key={dog.id} sx={{ maxWidth: 345, marginBottom: 2 }}>
+                <CardMedia
+                  sx={{ height: 200 }}
+                  image={dog.img}
+                  title={dog.name}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {dog.name}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    Age: {dog.age}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    Zip Code: {dog.zip_code}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    Breed: {dog.breed}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <IconButton
+                    size="small"
+                    onClick={() => toggleFavorite(dog)}
+                    aria-label="add to favorites"
+                  >
+                    {favorites.some((fav) => fav.id === dog.id) ? (
+                      <Favorite sx={{ color: 'red' }} />
+                    ) : (
+                      <FavoriteBorder />
+                    )}
+                  </IconButton>
+                </CardActions>
+              </Card>
             ))}
           </div>
         ) : (
@@ -248,7 +280,7 @@ const Feed = () => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
