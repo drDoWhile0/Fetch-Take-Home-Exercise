@@ -19,7 +19,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
         <Route path="/" element={isAuthenticated ? <Feed /> : <Navigate to="/login" replace />} />
         <Route path="/favorites" element={isAuthenticated ? <Favorites /> : <Navigate to="/login" replace />} />
       </Routes>
