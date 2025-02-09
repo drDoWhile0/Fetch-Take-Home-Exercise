@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, CardMedia, CardContent, Typography, CardActions, IconButton, Grid } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
+
 import Navigation from './Navigation';
+import DrawerNavigation from './DrawerNavigation';
 
 interface Dog {
   id: string;
@@ -82,6 +84,9 @@ const Favorites = () => {
     <div className="favorites-container">
       <div className="favorites-container__navigation-container">
         <Navigation />
+      </div>
+      <div className='favorites-container__drawer-navigation-container'>
+        <DrawerNavigation />
       </div>
 
       <div className="favorites-container__main-content">
