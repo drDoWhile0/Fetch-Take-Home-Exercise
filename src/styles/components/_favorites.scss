@@ -11,6 +11,12 @@
       top: 0;
       z-index: 10;
       padding: 20px;
+
+      .login-component__login-card__button {
+        margin-left: 20px;
+        margin-top: 400px;
+        width: 85%;
+      }
     }
   
     .favorites-container__main-content {
