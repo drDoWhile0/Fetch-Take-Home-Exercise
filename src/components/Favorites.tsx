@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { Card, CardMedia, CardContent, Typography, CardActions, IconButton, Grid } from '@mui/material';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import Navigation from './Navigation';
 
 interface Dog {
@@ -39,10 +40,6 @@ const Favorites = () => {
   const clearFavorites = () => {
     setFavorites([]);
     localStorage.removeItem('favorites');
-  };
-
-  const goBackToFeed = () => {
-    navigate('/');
   };
 
   const generateMatch = async () => {
@@ -90,7 +87,7 @@ const Favorites = () => {
       <div className="favorites-container__main-content">
         <h2>Your Favorite Dogs</h2>
 
-        <div className='favorite-and-match-btn'>
+        <div className="favorite-and-match-btn">
           {!match && (
             <div style={{ marginBottom: '20px' }}>
               <button onClick={clearFavorites}>Clear Favorites</button>
@@ -107,10 +104,29 @@ const Favorites = () => {
         {match && (
           <div className="dog-info">
             <h3>It's a paw-fect match!</h3>
-            <img src={match.img} alt={match.name} />
-            <h4>{match.name}</h4>
-            <p>Age: {match.age}</p>
-            <p>Breed: {match.breed}</p>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={4}>
+                <Card sx={{ maxWidth: 345, marginBottom: 2 }}>
+                  <CardMedia sx={{ height: 200 }} image={match.img} title={match.name} />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {match.name}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      Age: {match.age}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      Breed: {match.breed}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <IconButton size="small" aria-label="remove from favorites">
+                      <Favorite sx={{ color: 'red' }} />
+                    </IconButton>
+                  </CardActions>
+                </Card>
+              </Grid>
+            </Grid>
           </div>
         )}
 
@@ -124,15 +140,42 @@ const Favorites = () => {
 
         <div>
           {favorites.length === 0 && !match ? null : (
-            favorites.map((dog) => (
-              <div key={dog.id} className="dog-info">
-                <img src={dog.img} alt={dog.name} />
-                <h3>{dog.name}</h3>
-                <p>Age: {dog.age}</p>
-                <p>Breed: {dog.breed}</p>
-                <button onClick={() => toggleFavorite(dog)}>Unfavorite</button>
-              </div>
-            ))
+            <Grid container spacing={2}>
+              {favorites.map((dog) => (
+                <Grid item xs={12} sm={6} md={4} key={dog.id}>
+                  <Card sx={{ maxWidth: 345, marginBottom: 2 }}>
+                    <CardMedia sx={{ height: 200 }} image={dog.img} title={dog.name} />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {dog.name}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        Age: {dog.age}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        Zip Code: {dog.zip_code}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                        Breed: {dog.breed}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <IconButton
+                        size="small"
+                        onClick={() => toggleFavorite(dog)}
+                        aria-label="add to favorites"
+                      >
+                        {favorites.some((fav) => fav.id === dog.id) ? (
+                          <Favorite sx={{ color: 'red' }} />
+                        ) : (
+                          <FavoriteBorder />
+                        )}
+                      </IconButton>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
           )}
         </div>
       </div>
