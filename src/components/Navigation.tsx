@@ -1,9 +1,34 @@
 import React from "react";
 import { Button } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navigation = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+          const response = await fetch('https://frontend-take-home-service.fetch.com/auth/logout', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+      
+          if (response.ok) {
+            localStorage.removeItem('authToken');
+            sessionStorage.removeItem('authToken');
+      
+            navigate('/login');
+          } else {
+            throw new Error('Logout failed');
+          }
+        } catch (error) {
+          console.error('Logout error:', error);
+        }
+    };
+
     return(
         <>
             <div className='navigation-container__elements'>
@@ -21,21 +46,22 @@ const Navigation = () => {
                 </div>
             </div>
             <Button
-                type="submit"
+                type="button"
                 fullWidth
                 variant="contained"
                 className="login-component__login-card__button"
-                sx={{ 
-                    mt: 3, 
+                sx={{
+                    mt: 3,
                     mb: 2,
                     backgroundColor: "#FFA900",
                     color: 'black',
                     fontFamily: '"Bree Serif", serif',
                     "&:hover": {
-                        backgroundColor: "#FF5733",
-                        color: "white",
+                    backgroundColor: "#FF5733",
+                    color: "white",
                     },
                 }}
+                onClick={handleLogout}
             >
                 Log Out
             </Button>
