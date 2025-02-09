@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import Navigation from './Navigation';
+
 interface Dog {
   id: string;
   img: string;
@@ -80,55 +82,59 @@ const Favorites = () => {
   };
 
   return (
-    <div>
-      <h2>Your Favorite Dogs</h2>
-
-      {!match && (
-        <div style={{ marginBottom: '20px' }}>
-          <button onClick={clearFavorites}>Clear Favorites</button>
-        </div>
-      )}
-
-      {!match && (
-        <div style={{ marginBottom: '20px' }}>
-          <button onClick={generateMatch}>Generate Match</button>
-        </div>
-      )}
-
-      {match && (
-        <div style={{ marginBottom: '20px' }}>
-          <h3>It's a paw-fect match!</h3>
-          <img src={match.img} alt={match.name} />
-          <h4>{match.name}</h4>
-          <p>Age: {match.age}</p>
-          <p>Breed: {match.breed}</p>
-        </div>
-      )}
-
-      {error && (
-        <div style={{ marginBottom: '20px' }}>
-          <p>Error: {error}</p>
-        </div>
-      )}
-
-      <div style={{ marginBottom: '20px' }}>
-        <button onClick={goBackToFeed}>Go Back to Feed</button>
+    <div className="favorites-container">
+      <div className="favorites-container__navigation-container">
+        <Navigation />
       </div>
 
-      {match || favorites.length > 0 ? null : <p>No favorites yet!</p>}
+      <div className="favorites-container__main-content">
+        <h2>Your Favorite Dogs</h2>
 
-      <div>
-        {favorites.length === 0 && !match ? null : (
-          favorites.map((dog) => (
-            <div key={dog.id}>
-              <img src={dog.img} alt={dog.name} />
-              <h3>{dog.name}</h3>
-              <p>Age: {dog.age}</p>
-              <p>Breed: {dog.breed}</p>
-              <button onClick={() => toggleFavorite(dog)}>Unfavorite</button>
+        <div className='favorite-and-match-btn'>
+          {!match && (
+            <div style={{ marginBottom: '20px' }}>
+              <button onClick={clearFavorites}>Clear Favorites</button>
             </div>
-          ))
+          )}
+
+          {!match && (
+            <div style={{ marginBottom: '20px' }}>
+              <button onClick={generateMatch}>Generate Match</button>
+            </div>
+          )}
+        </div>
+
+        {match && (
+          <div className="dog-info">
+            <h3>It's a paw-fect match!</h3>
+            <img src={match.img} alt={match.name} />
+            <h4>{match.name}</h4>
+            <p>Age: {match.age}</p>
+            <p>Breed: {match.breed}</p>
+          </div>
         )}
+
+        {error && (
+          <div style={{ marginBottom: '20px' }}>
+            <p>Error: {error}</p>
+          </div>
+        )}
+
+        {match || favorites.length > 0 ? null : <p>No favorites yet!</p>}
+
+        <div>
+          {favorites.length === 0 && !match ? null : (
+            favorites.map((dog) => (
+              <div key={dog.id} className="dog-info">
+                <img src={dog.img} alt={dog.name} />
+                <h3>{dog.name}</h3>
+                <p>Age: {dog.age}</p>
+                <p>Breed: {dog.breed}</p>
+                <button onClick={() => toggleFavorite(dog)}>Unfavorite</button>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
