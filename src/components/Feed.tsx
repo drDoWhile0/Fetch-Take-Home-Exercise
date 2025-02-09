@@ -15,6 +15,7 @@ import {
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 
 import Navigation from './Navigation';
+import DrawerNavigation from './DrawerNavigation';
 
 interface Dog {
   id: string;
@@ -199,6 +200,9 @@ const Feed = () => {
     <div className='main-feed-container'>
       <div className='main-feed-container__navigation-container'>
         <Navigation />
+      </div>
+      <div className='main-feed-container__drawer-navigation-container'>
+        <DrawerNavigation />
       </div>
       <div className='main-feed-container__main-feed-display'>
         <h1>Your Potential Pawtners</h1>
