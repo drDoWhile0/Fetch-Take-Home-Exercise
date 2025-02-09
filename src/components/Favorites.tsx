@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardMedia, CardContent, Typography, CardActions, IconButton, Grid } from '@mui/material';
+import { Button, Card, CardMedia, CardContent, Typography, CardActions, IconButton, Grid } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import Navigation from './Navigation';
 
@@ -90,13 +90,25 @@ const Favorites = () => {
         <div className="favorite-and-match-btn">
           {!match && (
             <div style={{ marginBottom: '20px' }}>
-              <button onClick={clearFavorites}>Clear Favorites</button>
+              <Button 
+                variant='outlined'
+                onClick={clearFavorites}
+                sx={{ borderColor: 'black', color: 'black' }}
+              >
+                Clear Favorites
+              </Button>
             </div>
           )}
 
           {!match && (
             <div style={{ marginBottom: '20px' }}>
-              <button onClick={generateMatch}>Generate Match</button>
+              <Button 
+                variant='outlined'
+                onClick={generateMatch}
+                sx={{ borderColor: 'black', color: 'black' }}
+              >
+                Generate Match
+              </Button>
             </div>
           )}
         </div>
