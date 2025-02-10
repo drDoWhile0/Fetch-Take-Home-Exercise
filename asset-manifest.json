@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Fetch-Take-Home-Exercise/static/css/main.985345b6.css",
-    "main.js": "/Fetch-Take-Home-Exercise/static/js/main.9d69bb6d.js",
+    "main.js": "/Fetch-Take-Home-Exercise/static/js/main.9bcd90f8.js",
     "index.html": "/Fetch-Take-Home-Exercise/index.html",
     "main.985345b6.css.map": "/Fetch-Take-Home-Exercise/static/css/main.985345b6.css.map",
-    "main.9d69bb6d.js.map": "/Fetch-Take-Home-Exercise/static/js/main.9d69bb6d.js.map"
+    "main.9bcd90f8.js.map": "/Fetch-Take-Home-Exercise/static/js/main.9bcd90f8.js.map"
   },
   "entrypoints": [
     "static/css/main.985345b6.css",
-    "static/js/main.9d69bb6d.js"
+    "static/js/main.9bcd90f8.js"
   ]
 }
