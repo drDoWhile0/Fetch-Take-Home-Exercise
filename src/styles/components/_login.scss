@@ -1,0 +1,80 @@
+body.login-page {
+    background: linear-gradient(to right, $primary-color, $gradient-color-secondary);
+    font-family: "Bree Serif", serif;
+}
+
+.login-component {
+    background: linear-gradient(to right, $primary-color, $gradient-color-secondary);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1, p {
+        color: white;
+        font-weight: 400;
+        font-style: normal;
+    }
+    
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 0;
+    }
+    
+    p {
+        margin-bottom: 40px;
+    }
+
+    &__heading-icon-container {
+        display: flex;
+        align-items: center;
+
+        &__paw-icon {
+            align-self: center;
+            margin-left: 8px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            display: none;
+        }
+    }
+
+    .login-subtext {
+        @media (max-width: 768px) {
+            display: none;
+        }
+    }
+
+    .login-component__bottom-heading-icon-container {
+        display: none;
+        
+        .login-component__heading-icon-container-bottom {
+            display: flex;
+
+            h1 {
+                color: #150133;
+                font-size: 2rem;
+            }
+
+            svg {
+                align-self: center;
+                margin-top: 20px;
+                margin-left: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            display: block;
+        }
+
+    }
+
+    &__login-card {
+
+        &__button { 
+            background-color: red;
+        }
+    }
+}
