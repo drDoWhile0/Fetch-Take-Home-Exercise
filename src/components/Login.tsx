@@ -72,7 +72,7 @@ const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
           <h1>Pawtners</h1>
           <PetsIcon className='login-component__heading-icon-container__paw-icon' sx={{ color: '#FBA919', height: '30px', width: '30px' }} />
         </div>
-        <p>Find your paw-fect match today.</p>
+        <p className='login-subtext'>Find your paw-fect match today.</p>
 
         <Grid
           item
@@ -149,6 +149,12 @@ const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
                 Let's Go!
               </Button>
             </form>
+            <div className='login-component__bottom-heading-icon-container'>
+              <div className='login-component__heading-icon-container-bottom'>
+                <h1>Pawtners</h1>
+                <PetsIcon className='login-component__heading-icon-container-bottom__paw-icon' sx={{ color: '#FBA919', height: '30px', width: '30px' }} />
+              </div>
+            </div>
           </Box>
         </Grid>
       </Grid>
