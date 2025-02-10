@@ -1,4 +1,5 @@
 {
+  "homepage": "https://drDoWhile0.github.io/Fetch-Take-Home-Exercise",
   "name": "fetch-rewards-frontend-challenge",
   "version": "0.1.0",
   "private": true,
@@ -21,7 +22,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -43,6 +46,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.4",
+    "gh-pages": "^6.3.0",
     "sass": "^1.84.0"
   }
 }
