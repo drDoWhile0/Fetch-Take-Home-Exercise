@@ -35,6 +35,40 @@ body.login-page {
             margin-left: 8px;
             margin-top: 40px;
         }
+
+        @media (max-width: 768px) {
+            display: none;
+        }
+    }
+
+    .login-subtext {
+        @media (max-width: 768px) {
+            display: none;
+        }
+    }
+
+    .login-component__bottom-heading-icon-container {
+        display: none;
+        
+        .login-component__heading-icon-container-bottom {
+            display: flex;
+
+            h1 {
+                color: #150133;
+                font-size: 2rem;
+            }
+
+            svg {
+                align-self: center;
+                margin-top: 20px;
+                margin-left: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            display: block;
+        }
+
     }
 
     &__login-card {

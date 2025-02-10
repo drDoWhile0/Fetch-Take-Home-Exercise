@@ -18,7 +18,6 @@
       width: 85%;
     }
 
-    // Hide Navigation on tablet screens and smaller
     @media (max-width: 768px) {
       display: none;
     }
@@ -117,7 +116,6 @@
 }
 
 .favorites-container__drawer-navigation-container {
-  // Hide DrawerNavigation on screens larger than tablet size
   @media (min-width: 769px) {
     display: none;
   }
